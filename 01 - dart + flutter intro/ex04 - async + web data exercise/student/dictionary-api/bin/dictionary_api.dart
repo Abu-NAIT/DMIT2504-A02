@@ -6,10 +6,11 @@
 // 3. loop this until the user quits
 // 4. create a class to represent the returned word
 import 'dart:io';
+import 'package:dictionary_api/http_requests.dart';
 
 void main() {
   print("What's the word you want to look up?");
   String word = stdin.readLineSync()!;
 
-
+  String dummyResult = getJSON(word)
 }
