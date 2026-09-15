@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:http';
+import 'package:http/http.dart' as http;
 
 // I need a function that:
 //  - takes a string input (word lookup)
@@ -34,8 +34,8 @@ String API_BASE_URL = 'https://freedictionaryapi.com/api/v1/entries/en/';
 
 Future<String> getDictionaryDefinition(String word) async {
   // this function must also be async, because getJSON() is async!
-  String endpoint = 'entries/en/';
-  String urlString = '${API_BASE_URL}/entries/en/${word}';
+  // String endpoint = 'entries/en/';
+  String urlString = '${API_BASE_URL}${word}';
 
   var jsonData = await getJSON(urlString);
 
