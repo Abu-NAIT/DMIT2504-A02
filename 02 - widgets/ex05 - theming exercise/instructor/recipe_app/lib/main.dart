@@ -23,51 +23,83 @@ class MyApp extends StatelessWidget {
         // directly using the primary colour vs. e.g. primaryContainer, onPrimary, etc.
         // and this helps illustrate why it's important to specifically consider those things.
         scaffoldBackgroundColor: colorScheme.primaryContainer, // try changing back to .primary — yuck!
+        textTheme: TextTheme(
+          headlineLarge: TextStyle(
+            fontSize: 44,
+            color: colorScheme.primary,
+          ),
+          titleLarge: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: colorScheme.secondary,
+          ),
+        ),
       ),
-      home: Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch, // like a flexbox!
-                              // .stretch alignment means children fill the entire width
-          children: [
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: const Text(
-                'My Recipe App',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                )
-              ),
+      home: const RecipePage(),
+    );
+  }
+}
+
+
+class RecipePage extends StatelessWidget {
+
+  const RecipePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+
+    final border = BorderSide(
+      color: Theme.of(context).colorScheme.primary,
+      width: 6,
+    );
+
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch, // like a flexbox!
+                            // .stretch alignment means children fill the entire width
+        children: [
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
+              'My Recipe App',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headlineLarge,
             ),
-            Image.asset(
+          ),
+          Container(
+            decoration: BoxDecoration(
+              border: Border(top: border, bottom: border),
+            ),
+            child: Image.asset(
               'assets/images/cool.jpg',
               height: 480,
+              fit: BoxFit.cover,
             ),
-            const ListWithHeading(
-              heading: "Ingredients",
-              listItems: [
-                "- some ingredient",
-                "- some ingredient",
-                "- some ingredient",
-                "- some ingredient",
-                "- some ingredient",
-              ]
-            ),
-            const ListWithHeading(
-              heading: "Instructions",
-              listItems: [
-                '1. take your cream and behold it',
-                '2. whip it good',
-                '3. dip a strawberry',
-              ]
-            ),
-          ],
-        ),
+          ),
+          const ListWithHeading(
+            heading: "Ingredients",
+            listItems: [
+              "- some ingredient",
+              "- some ingredient",
+              "- some ingredient",
+              "- some ingredient",
+              "- some ingredient",
+            ]
+          ),
+          const ListWithHeading(
+            heading: "Instructions",
+            listItems: [
+              '1. take your cream and behold it',
+              '2. whip it good',
+              '3. dip a strawberry',
+            ]
+          ),
+        ],
       ),
     );
   }
 }
+
 
 
 // I notice that the Ingredients & Instructions 'shapes' are identical,
@@ -84,8 +116,6 @@ class ListWithHeading extends StatelessWidget {
   final String       heading;
   final List<String> listItems;
 
-  static const headingStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
-
 
   // 3. I need to write a build method that returns that group of elements
   @override
@@ -99,7 +129,7 @@ class ListWithHeading extends StatelessWidget {
           Text(
             heading,
             textAlign: TextAlign.center,
-            style: headingStyle,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           for (final item in listItems) Text(item),
         ],
