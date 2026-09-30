@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: colorScheme.primaryContainer, // try changing back to .primary — yuck!
         textTheme: TextTheme(
           headlineLarge: TextStyle(
+            fontFamily: "Playwrite BE WAL Guides",
             fontSize: 44,
             color: colorScheme.primary,
           ),
@@ -58,6 +59,7 @@ class RecipePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch, // like a flexbox!
                             // .stretch alignment means children fill the entire width
         children: [
+
           Padding(
             padding: EdgeInsets.all(16.0),
             child: Text(
@@ -66,33 +68,45 @@ class RecipePage extends StatelessWidget {
               style: Theme.of(context).textTheme.headlineLarge,
             ),
           ),
+
           Container(
             decoration: BoxDecoration(
               border: Border(top: border, bottom: border),
             ),
             child: Image.asset(
               'assets/images/cool.jpg',
-              height: 480,
+              height: 200,
               fit: BoxFit.cover,
             ),
           ),
-          const ListWithHeading(
-            heading: "Ingredients",
-            listItems: [
-              "- some ingredient",
-              "- some ingredient",
-              "- some ingredient",
-              "- some ingredient",
-              "- some ingredient",
-            ]
-          ),
-          const ListWithHeading(
-            heading: "Instructions",
-            listItems: [
-              '1. take your cream and behold it',
-              '2. whip it good',
-              '3. dip a strawberry',
-            ]
+
+          const Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+
+                  ListWithHeading(
+                    heading: "Ingredients",
+                    listItems: [
+                      "- some ingredient",
+                      "- some ingredient",
+                      "- some ingredient",
+                      "- some ingredient",
+                      "- some ingredient",
+                    ]
+                  ),
+                  ListWithHeading(
+                    heading: "Instructions",
+                    listItems: [
+                      '1. take your cream and behold it',
+                      '2. whip it good',
+                      '3. dip a strawberry',
+                    ]
+                  ),
+
+                ]
+              ),
+            ),
           ),
         ],
       ),
