@@ -46,32 +46,55 @@ class _RandomDogImageState extends State<RandomDogImage> {
     return await jsonDecode(response.body)['message'];
   }
 
+  // refactor dog image fetching into its own function, so i can reuse it
+  Future<void> fetchNewDog() async {
+
+    setState(() { dogImageUrl = ''; });  // reset the dog URL state first
+
+    final url = await getRandomDogUrl(); // get new dog image URL
+
+    if (!mounted) return;                // bail out if component isn't mounted into element tree
+
+    setState(() { dogImageUrl = url; }); // overwrite dog image state
+
+  }
+
   @override
   void initState() {
     super.initState();    
-    getRandomDogUrl().then(
-      // callback function: (returnThing) => { logic to fire }
-      (url) { 
-        setState(
-          () { dogImageUrl = url; }
-        );
-      }
-    );
+    fetchNewDog();
   }
 
   @override
   Widget build(BuildContext context) {
-    // ternary gang: conditionally return loading text OR dog image
-    return dogImageUrl.isEmpty
-      ? const Text("Loading dog...")
-      : Image.network(dogImageUrl);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        
+        // 1. we'll use a SizedBox to control the position of image + button,
+        // so that button doesn't jump around the UI while image is loading
+        SizedBox(
+          height: 300,
+          // ternary gang: conditionally return loading text OR dog image
+          child: dogImageUrl.isEmpty 
+            ? const Center(child: Text("Loading dog..."))
+            : Image.network(dogImageUrl),
+        ),
+
+        // 2. another fixed-height box for some spacing
+        const SizedBox(height: 16),
+
+        // 3. teh button
+        ElevatedButton(
+          onPressed: fetchNewDog, // note: this isn't a call() !
+                                  // it's just naming what function SHOULD fire.
+          child: const Text("fetch new dog (I hated my old one)"),
+        
+        ),
+
+      ]
+    );
 
   }
 
 }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Image.network();
-//   }
-// }
