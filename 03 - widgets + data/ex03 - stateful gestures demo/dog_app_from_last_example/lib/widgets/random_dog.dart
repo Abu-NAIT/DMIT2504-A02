@@ -102,3 +102,85 @@ class _RandomDogImageState extends State<RandomDogImage> {
   }
 
 }
+
+/* Additional modifications:
+   - keep the repetition cleaned up like before
+   - increment likes on each tap, not when dog loads (not necessarily the best option, just to demo)
+
+Future<void> _nextDog() async {
+  final url = await getRandomDogUrl();
+  if (!mounted) return;
+  setState(() {
+    dogImageUrl = url;
+  });
+}
+
+@override
+void initState() {
+  super.initState();
+  _nextDog();
+}
+
+Widget _buildDogImage() {
+  return GestureDetector(
+    onTap: () {
+      setState(() => likes += 1);
+      _nextDog();
+    },
+    onLongPress: () {
+      setState(() => dislikes += 1);
+      _nextDog();
+    },
+    child: dogImageUrl != '' ? Image.network(dogImageUrl) : const Text('Loading...'),
+  );
+}
+*/
+
+
+/* -------------------------------------------------------
+On your own time, try: (solutions posted @ bottom of file)
+
+
+A) double-tap for a "Superlike" (let's say that means +2 likes, rather than a new field entirely).
+  -> Q: single tap now feels slower. Why?
+
+
+B) implement dog tinder, for that weird guy at the radio show.
+   Hint: the gesture you want is onHorizontalDragEnd
+
+
+-------------------
+SOLUTIONS + ANSWERS
+-------------------
+Each solution assumes implementation of all prior commented code.
+
+
+
+A) -> Single-tap now feels slower because flutter has to wait a bit to see if there's a follow-up tap.
+      Useful to know when coding UI that wants both single & double taps.
+      
+onDoubleTap: () {
+  setState(() => likes += 2);
+  _nextDog();
+},
+
+
+B) Here we go! 
+   Why  {details.primaryVelocity ?? 0} ?
+   -> the velocity is a double?, so it can be null.
+      That means we should give it a default value if it's falsey.
+   
+
+onHorizontalDragEnd: (details) {
+  final velocity = details.primaryVelocity ?? 0;
+  if (velocity > 0) {
+    setState(() => likes += 1);
+  } else if (velocity < 0) {
+    setState(() => dislikes += 1);
+  }
+  _nextDog();
+},
+
+
+
+*/
