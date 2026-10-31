@@ -22,6 +22,7 @@ class NestedPathManager extends StatefulWidget{
 
 class _NestedPathManagerState extends State<NestedPathManager> {
 
+  // this is the sole reason this route manager has to be stateful: its key has to survive across rebuilds.
   final _navigatorKey = GlobalKey<NavigatorState>();
 
   @override
